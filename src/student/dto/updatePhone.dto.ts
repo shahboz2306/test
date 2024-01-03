@@ -9,7 +9,7 @@ import {
 
 export class UpdatePhoneDto {
   @ApiProperty({
-    example: '+998991234567',
+    example: '+998991422303',
     description: 'The old phone number of the student',
   })
   @IsNotEmpty()
@@ -17,7 +17,7 @@ export class UpdatePhoneDto {
   old_phone?: string;
 
   @ApiProperty({
-    example: '+998991234567',
+    example: '+998991422303',
     description: 'A new phone number of the student',
   })
   @IsNotEmpty()
@@ -25,7 +25,7 @@ export class UpdatePhoneDto {
   new_phone?: string;
 
   @ApiProperty({
-    example: 'student2303',
+    example: 'student2304',
     description: 'The old password of the student',
   })
   @IsNotEmpty()

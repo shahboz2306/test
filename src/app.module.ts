@@ -6,6 +6,7 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import { resolve } from 'path';
 import { FilesModule } from './files/files.module';
 import { StudentModule } from './student/student.module';
+import { AdminModule } from './admin/admin.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { StudentModule } from './student/student.module';
       rootPath: resolve(__dirname, '..', 'static'),
     }),
     JwtModule.register({ global: true }),
+    AdminModule,
     StudentModule,
     // FilesModule,
   ],

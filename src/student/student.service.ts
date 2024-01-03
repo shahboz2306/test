@@ -60,7 +60,7 @@ export class StudentService {
       }
       const is_match_pass = await compare(password, student.hashed_password);
       if (!is_match_pass) {
-        throw new BadRequestException('The password did not match');
+        throw new BadRequestException('The password did not valid');
       }
 
       const { access_token, refresh_token } = await generateToken(
@@ -180,17 +180,20 @@ export class StudentService {
 
       if (!old_phone) {
         throw new NotFoundException('Enter your old phone!');
-      } else if (!new_phone) {
+      } 
+      if (!new_phone) {
         throw new NotFoundException('Enter your new phone!');
-      } else if (!password) {
+      } 
+      if (!password) {
         throw new NotFoundException('Enter your password!');
-      } else if (student.phone != old_phone) {
+      }
+      if (student.phone != old_phone) {
         throw new NotFoundException('The phone is incorrect!');
       }
 
       const is_match_pass = await compare(password, student.hashed_password);
       if (!is_match_pass) {
-        throw new BadRequestException('The password did not match');
+        throw new BadRequestException('The password did not valid');
       }
 
       const updated_info = await this.studentRepository.update(
@@ -220,9 +223,11 @@ export class StudentService {
 
       if (!phone) {
         throw new NotFoundException('Enter your phone!');
-      } else if (!new_password) {
+      } 
+       if (!new_password) {
         throw new NotFoundException('Enter your old password!');
-      } else if (!old_password) {
+      } 
+       if (!old_password) {
         throw new NotFoundException('Enter your new password!');
       }
 
@@ -231,7 +236,7 @@ export class StudentService {
         student.hashed_password,
       );
       if (!is_match_pass) {
-        throw new BadRequestException('The password did not match');
+        throw new BadRequestException('The password did not valid');
       }
 
       const hashed_password = await hash(new_password, 7);

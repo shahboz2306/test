@@ -3,7 +3,7 @@ import { IsBoolean, IsNotEmpty, IsPhoneNumber, IsString, MinLength } from 'class
 
 export class newPasswordDto {
   @ApiProperty({
-    example: '+998991234567',
+    example: '+998991422303',
     description: 'Phone number of the student',
   })
   @IsNotEmpty()

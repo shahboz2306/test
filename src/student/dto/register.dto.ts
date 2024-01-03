@@ -17,7 +17,7 @@ export class RegisterDto {
   full_name: string;
 
   @ApiProperty({
-    example: '+998991234567',
+    example: '+998991422303',
     description: 'Phone number of the student',
   })
   @IsNotEmpty()
