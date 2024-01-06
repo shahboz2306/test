@@ -7,6 +7,8 @@ import { resolve } from 'path';
 import { FilesModule } from './files/files.module';
 import { StudentModule } from './student/student.module';
 import { AdminModule } from './admin/admin.module';
+import { QuestionModule } from './questions/question.module';
+import { UuidModule } from './generate_url/uuid.module';
 
 @Module({
   imports: [
@@ -30,6 +32,8 @@ import { AdminModule } from './admin/admin.module';
     JwtModule.register({ global: true }),
     AdminModule,
     StudentModule,
+    QuestionModule,
+    UuidModule,
     // FilesModule,
   ],
 })
