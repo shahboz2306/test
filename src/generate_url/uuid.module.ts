@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { UuidService } from './uuid.service';
 import { UuidController } from './uuid.controller';
 import { SequelizeModule } from '@nestjs/sequelize';
-import { Uuid } from './models/Uuid.model';
+import { Uuid } from './models/uuid.model';
 
 @Module({
   imports: [SequelizeModule.forFeature([Uuid])],
