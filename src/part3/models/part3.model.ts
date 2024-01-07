@@ -5,24 +5,24 @@ import {
   Table,
   ForeignKey,
   BelongsTo,
-  HasMany,
 } from 'sequelize-typescript';
-import { Part3 } from '../../part3/models/part3.model';
+import { Part2 } from '../../part2/models/part2.model';
 
 interface TimeStatus {
   count: number;
   count_type: string;
 }
 
-interface Part2Attributes {
+interface Part3Attributes {
   isPremium: boolean;
-  part2: Array<string>;
+  part3: Array<string>;
+  part2_id: number;
   thinkingTime: any;
   speakingTime: any;
 }
 
-@Table({ tableName: 'part2' })
-export class Part2 extends Model<Part2, Part2Attributes> {
+@Table({ tableName: 'part3' })
+export class Part3 extends Model<Part3, Part3Attributes> {
   @Column({
     type: DataType.INTEGER,
     autoIncrement: true,
@@ -40,17 +40,21 @@ export class Part2 extends Model<Part2, Part2Attributes> {
     type: DataType.ARRAY(DataType.STRING),
     allowNull: false,
   })
-  part2: Array<any>;
+  part3: Array<any>;
+
+  @ForeignKey(() => Part2)
+  @Column({
+    type: DataType.INTEGER,
+    allowNull: false,
+  })
+  part2_id: number;
+
+  @BelongsTo(() => Part2)
+  part2: Part2;
 
   @Column({ type: DataType.JSON, allowNull: false })
   thinkingTime: TimeStatus;
 
   @Column({ type: DataType.JSON, allowNull: false })
   speakingTime: TimeStatus;
-
-  @HasMany(() => Part3, {
-    onDelete: 'CASCADE',
-    hooks: true,
-  })
-  part3: Part3[];
 }

@@ -3,7 +3,7 @@ import { Column, DataType, Model, Table, HasMany } from 'sequelize-typescript';
 interface StudentAttrs {
   id: number;
   full_name: string;
-  audio: Blob;
+  audio: string;
 }
 
 @Table({ tableName: 'student' })
@@ -22,8 +22,8 @@ export class Student extends Model<Student, StudentAttrs> {
   full_name: string;
 
   @Column({
-    type: DataType.BLOB,
+    type: DataType.STRING,
     allowNull: false,
   })
-  audio: Blob;
+  audio: string;
 }

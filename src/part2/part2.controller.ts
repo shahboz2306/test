@@ -26,14 +26,14 @@ export class Part2Controller {
     return this.part2Service.create(part2Dto);
   }
 
-  @ApiOperation({ summary: 'Get part2 by id' })
-  @Get('getAll')
+  @ApiOperation({ summary: 'Get part2 by part_number' })
+  @Get('/getAll')
   getAll() {
     return this.part2Service.getAll();
   }
-
+  
   @ApiOperation({ summary: 'Delete part2 by id' })
-  @Delete(':id')
+  @Delete('/:id')
   delete(@Param('id') id: number) {
     return this.part2Service.delete(id);
   } 

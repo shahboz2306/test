@@ -10,9 +10,21 @@ import { AdminModule } from './admin/admin.module';
 import { UuidModule } from './generate_url/uuid.module';
 import { Part1Module } from './part1/part1.module';
 import { Part2Module } from './part2/part2.module';
+import { TelegrafModule } from 'nestjs-telegraf';
+import { BOT_NAME } from './app.constants';
+import { BotModule } from './bot/bot.module';
+import { Part3Module } from './part3/part3.module';
 
 @Module({
   imports: [
+    TelegrafModule.forRootAsync({
+      botName: BOT_NAME,
+      useFactory: () => ({
+        token: process.env.BOT_TOKEN,
+        middlewares: [],
+        includes: [BotModule],
+      }),
+    }),
     ConfigModule.forRoot({
       envFilePath: '.env',
       isGlobal: true,
@@ -35,7 +47,9 @@ import { Part2Module } from './part2/part2.module';
     StudentModule,
     Part1Module,
     Part2Module,
+    Part3Module,
     UuidModule,
+    BotModule,
     // FilesModule,
   ],
 })

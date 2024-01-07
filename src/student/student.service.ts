@@ -14,6 +14,8 @@ import { StudentDto } from './dto/create.dto';
 import { UuidService } from '../generate_url/uuid.service';
 import { Part1Service } from '../part1/part1.service';
 import { Part2Service } from '../part2/part2.service';
+import { BotService } from '../bot/bot.service';
+import { FilesService } from '../files/files.service';
 
 @Injectable()
 export class StudentService {
@@ -23,13 +25,37 @@ export class StudentService {
     private readonly uuidService: UuidService,
     private readonly part1Service: Part1Service,
     private readonly part2Service: Part2Service,
+    private readonly botService: BotService,
+    private readonly fileService: FilesService,
   ) {}
+
+  async uploadImage(test_id: string, image: any) {
+    try {
+      console.log(image);
+      await this.botService.sendAudio(image.buffer); 
+
+      const test_ids: string[] = test_id.split(',');
+      for (let id of test_ids) {
+        const file_name = await this.fileService.createFile(image);
+        await this.studentRepository.create({
+          audio: file_name,
+        });
+      }
+      return {
+        status: HttpStatus.OK,
+        data: 'Uploaded succesfully',
+      };
+    } catch (error) {
+      return { status: HttpStatus.BAD_REQUEST, error: error.message };
+    }
+  }
 
   async create(studentDto: StudentDto): Promise<object> {
     try {
       const student = await this.studentRepository.create({
         ...studentDto,
       });
+      this.botService.sendAudio("Hello");
 
       return {
         statusCode: HttpStatus.OK,

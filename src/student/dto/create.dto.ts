@@ -17,9 +17,10 @@ export class StudentDto {
   full_name: string;
 
   @ApiProperty({
-    example: 'Blob',
+    example: 'audio',
     description: 'Audio',
   })
   @IsNotEmpty()
-  audio: Blob;
+  @IsString()
+  audio: string;
 }

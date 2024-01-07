@@ -5,9 +5,10 @@ import {
   IsNotEmpty,
   IsNumber,
   IsOptional,
+  IsString,
 } from 'class-validator';
 
-export class Part2Dto {
+export class Part3Dto {
   @ApiProperty({
     example: 'false',
     description: 'Type of isPremium',
@@ -21,11 +22,19 @@ export class Part2Dto {
       "What is your favorite hobbies?",
       "What is your name?",
     ],
-    description: 'Part2 of parts',
+    description: 'Part3 of parts',
   })
   @IsNotEmpty()
   @IsArray()
-  part2: Array<string>;
+  part3: Array<string>;
+
+  @ApiProperty({
+    example: 1,
+    description: 'Id of part2',
+  })
+  @IsNotEmpty()
+  @IsNumber()
+  part2_id: number;
 
   @ApiProperty({
     example: {

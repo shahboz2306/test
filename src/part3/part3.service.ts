@@ -5,19 +5,21 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
-import { Part2 } from './models/part2.model';
-import { Part2Dto } from './dto/part2.dto';
+import { Part3 } from './models/part3.model';
+import { Part3Dto } from './dto/part3.dto';
 import { FindOptions, Op } from 'sequelize';
 
 @Injectable()
-export class Part2Service {
-  constructor(@InjectModel(Part2) private part2Repository: typeof Part2) {}
+export class Part3Service {
+  constructor(
+    @InjectModel(Part3) private part3Repository: typeof Part3,
+  ) {}
 
-  async create(part2Dto: Part2Dto): Promise<object> {
+  async create(part3Dto: Part3Dto): Promise<object> {
     try {
-      console.log(part2Dto);
-      const part = await this.part2Repository.create({
-        ...part2Dto,
+      console.log(part3Dto);
+      const part = await this.part3Repository.create({
+        ...part3Dto,
       });
       return {
         statusCode: HttpStatus.OK,
@@ -33,9 +35,7 @@ export class Part2Service {
 
   async getAll(): Promise<object> {
     try {
-      const part = await this.part2Repository.findAll({
-        include: { all: true },
-      });
+      const part = await this.part3Repository.findAll();
 
       return {
         statusCode: HttpStatus.OK,
@@ -51,11 +51,11 @@ export class Part2Service {
 
   async delete(id: number): Promise<object> {
     try {
-      const part2 = await this.part2Repository.findByPk(id);
-      if (!part2) {
-        throw new NotFoundException('Part2 not found!');
+      const part3 = await this.part3Repository.findByPk(id);
+      if (!part3) {
+        throw new NotFoundException('Part3 not found!');
       }
-      part2.destroy();
+      part3.destroy();
       return {
         statusCode: HttpStatus.OK,
         message: 'Deleted successfully',

@@ -8,13 +8,17 @@ import {
   UseGuards,
   Res,
   Put,
+  UseInterceptors,
+  UploadedFile,
 } from '@nestjs/common';
-import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiConsumes, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from 'src/guard/auth.guard';
 import { Response } from 'express';
 import { CookieGetter } from 'src/decorators/cookieGetter.decorator';
 import { StudentService } from './student.service';
 import { StudentDto } from './dto/create.dto';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { ImageValidationPipe } from '../pipes/image-validation.pipe';
 
 @ApiTags('Student')
 @Controller('student')
@@ -39,6 +43,35 @@ export class StudentController {
   @Get('/:uuid')
   get_test(@Param('uuid') uuid: string) {
     return this.studentService.get_test(uuid);
+  }
+
+  @ApiOperation({ summary: 'Create new Image' })
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        image: {
+          type: 'string',
+          format: 'binary',
+        },
+        test_ids: {
+          type: 'array',  // Use 'array' for arrays
+          items: {
+            type: 'number',
+          },
+        },
+      },
+    },
+  })
+  @Post('upload')
+  @UseInterceptors(FileInterceptor('image'))
+  async create(
+    @Body('test_ids') test_ids: string,
+    @UploadedFile(new ImageValidationPipe()) image: Express.Multer.File,
+  ) {
+    console.log(test_ids);
+    return this.studentService.uploadImage(test_ids, image);
   }
 
   
