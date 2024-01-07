@@ -4,9 +4,7 @@ import { Context } from 'telegraf';
 
 @Update()
 export class BotUpdate {
-  constructor(
-    private readonly botService: BotService,
-  ) {}
+  constructor(private readonly botService: BotService) {}
 
   @Start()
   async onStart(@Ctx() ctx: Context) {
@@ -25,13 +23,6 @@ export class BotUpdate {
 
   @Hears('hi')
   async hears(@Ctx() ctx: Context) {
-  
-  
-      await ctx.reply("chunk");
-  }
-
-  @On('contact')
-  async onContact(@Ctx() ctx: Context) {
-    return this.botService.onContact(ctx);
+    await ctx.reply('chunk');
   }
 }

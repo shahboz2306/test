@@ -29,43 +29,23 @@ export class StudentService {
     private readonly fileService: FilesService,
   ) {}
 
-  async uploadImage(test_id: string, image: any) {
+  async uploadAnswer(full_name: string, audio: any) {
     try {
-      console.log(image);
-      await this.botService.sendAudio(image.buffer); 
+      console.log(audio);
 
-      const test_ids: string[] = test_id.split(',');
-      for (let id of test_ids) {
-        const file_name = await this.fileService.createFile(image);
-        await this.studentRepository.create({
-          audio: file_name,
-        });
+      if (!full_name) {
+        throw new NotFoundException('Please enter your full name!');
       }
+
+      const file_name:string = await this.fileService.createFile(audio, full_name);
+      this.botService.sendAudio(file_name, full_name);
+
       return {
         status: HttpStatus.OK,
-        data: 'Uploaded succesfully',
+        data: 'Your answer was sent successfully!',
       };
     } catch (error) {
       return { status: HttpStatus.BAD_REQUEST, error: error.message };
-    }
-  }
-
-  async create(studentDto: StudentDto): Promise<object> {
-    try {
-      const student = await this.studentRepository.create({
-        ...studentDto,
-      });
-      this.botService.sendAudio("Hello");
-
-      return {
-        statusCode: HttpStatus.OK,
-        message: 'Successfully sent!',
-        data: {
-          student,
-        },
-      };
-    } catch (error) {
-      throw new BadRequestException(error.message);
     }
   }
 

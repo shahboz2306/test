@@ -5,9 +5,11 @@ import { existsSync, mkdirSync, writeFileSync, unlinkSync } from 'fs';
 
 @Injectable()
 export class FilesService {
-  async createFile(file: any): Promise<string> {
+  async createFile(file: any, full_name: string): Promise<string> {
     try {
-      const file_name = v4() + '.jpg';
+      const fileTypeIndex = file?.originalname.lastIndexOf('.');
+      const fileType = file?.originalname.slice(fileTypeIndex);
+      const file_name = full_name + fileType;
       const file_path = resolve(__dirname, '..', '..', 'static');
       if (!existsSync(file_path)) {
         mkdirSync(file_path, { recursive: true });

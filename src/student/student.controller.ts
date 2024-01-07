@@ -11,7 +11,13 @@ import {
   UseInterceptors,
   UploadedFile,
 } from '@nestjs/common';
-import { ApiBearerAuth, ApiBody, ApiConsumes, ApiOperation, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiBody,
+  ApiConsumes,
+  ApiOperation,
+  ApiTags,
+} from '@nestjs/swagger';
 import { AuthGuard } from 'src/guard/auth.guard';
 import { Response } from 'express';
 import { CookieGetter } from 'src/decorators/cookieGetter.decorator';
@@ -23,14 +29,32 @@ import { ImageValidationPipe } from '../pipes/image-validation.pipe';
 @ApiTags('Student')
 @Controller('student')
 export class StudentController {
-  constructor(
-    private readonly studentService: StudentService,
-  ) {}
+  constructor(private readonly studentService: StudentService) {}
 
   @ApiOperation({ summary: 'Send the student answer' })
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        audio: {
+          type: 'string',
+          format: 'binary',
+        },
+        full_name: {
+          type: 'string',
+        },
+      },
+    },
+  })
   @Post('send_answer')
-  register(@Body() studentDto: StudentDto) {
-    return this.studentService.create(studentDto);
+  @UseInterceptors(FileInterceptor('audio'))
+  async create(
+    @Body('full_name') full_name: string,
+    @UploadedFile(new ImageValidationPipe()) audio: Express.Multer.File,
+  ) {
+    console.log(full_name);
+    return this.studentService.uploadAnswer(full_name, audio);
   }
 
   @ApiOperation({ summary: 'Get all students answer' })
@@ -44,37 +68,6 @@ export class StudentController {
   get_test(@Param('uuid') uuid: string) {
     return this.studentService.get_test(uuid);
   }
-
-  @ApiOperation({ summary: 'Create new Image' })
-  @ApiConsumes('multipart/form-data')
-  @ApiBody({
-    schema: {
-      type: 'object',
-      properties: {
-        image: {
-          type: 'string',
-          format: 'binary',
-        },
-        test_ids: {
-          type: 'array',  // Use 'array' for arrays
-          items: {
-            type: 'number',
-          },
-        },
-      },
-    },
-  })
-  @Post('upload')
-  @UseInterceptors(FileInterceptor('image'))
-  async create(
-    @Body('test_ids') test_ids: string,
-    @UploadedFile(new ImageValidationPipe()) image: Express.Multer.File,
-  ) {
-    console.log(test_ids);
-    return this.studentService.uploadImage(test_ids, image);
-  }
-
-  
 
   @ApiOperation({ summary: 'Delete student by ID' })
   @UseGuards(AuthGuard)
