@@ -29,19 +29,13 @@ export class UuidController {
   @ApiOperation({ summary: 'Get generated uuid' })
   // @UseGuards(AuthGuard)
   @Get()
-  get_uuid() {
-    return this.uuidService.get_uuid();
+  getAll() {
+    return this.uuidService.getAll();
   }
-
-  // @ApiOperation({ summary: 'Get uuid by ID' })
-  // @Get('id/:id')
-  // getById(@Param('id') id: number) {
-  //   return this.uuidService.getById(id);
-  // }
 
   @ApiOperation({ summary: 'Delete uuid by id' })
   @Delete(':id')
-  delete(@Param('id') id: number) {
+  delete(@Param('id') id: string) {
     return this.uuidService.delete(id);
   } 
 }

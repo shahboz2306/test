@@ -19,7 +19,9 @@ import { StudentDto } from './dto/create.dto';
 @ApiTags('Student')
 @Controller('student')
 export class StudentController {
-  constructor(private readonly studentService: StudentService) {}
+  constructor(
+    private readonly studentService: StudentService,
+  ) {}
 
   @ApiOperation({ summary: 'Send the student answer' })
   @Post('send_answer')
@@ -27,69 +29,19 @@ export class StudentController {
     return this.studentService.create(studentDto);
   }
 
-  // @ApiOperation({ summary: 'Login' })
-  // @Post('login')
-  // login(@Body() loginDto: LoginDto, @Res({ passthrough: true }) res: Response) {
-  //   return this.studentService.login(loginDto, res);
-  // }
-
-  // @ApiOperation({ summary: 'Logout' })
-  // @UseGuards(AuthGuard)
-  // @ApiBearerAuth()
-  // @Post('logout')
-  // logout(
-  //   @CookieGetter('refresh_token') refresh_token: string,
-  //   @Res({ passthrough: true }) res: Response,
-  // ) {
-  //   return this.studentService.logout(refresh_token, res);
-  // }
-
   @ApiOperation({ summary: 'Get all students answer' })
   @Get('pagination/:page/:limit')
   getAll(@Param('page') page: number, @Param('limit') limit: number) {
     return this.studentService.getAll(page, limit);
   }
 
-  // @ApiOperation({ summary: 'Get student by ID' })
-  // @UseGuards(AuthGuard)
-  // @ApiBearerAuth()
-  // @Get(':id')
-  // getById(@Param('id') id: string) {
-  //   return this.studentService.getById(id);
-  // }
+  @ApiOperation({ summary: 'Get all tests by random' })
+  @Get('/:uuid')
+  get_test(@Param('uuid') uuid: string) {
+    return this.studentService.get_test(uuid);
+  }
 
-  // @ApiOperation({ summary: 'Update profile with full_name and is_study' })
-  // @UseGuards(AuthGuard)
-  // @ApiBearerAuth()
-  // @Put('/update/:id')
-  // update(
-  //   @Param('id') id: string,
-  //   @Body() updateDto: UpdateDto,
-  // ) {
-  //   return this.studentService.update(id, updateDto);
-  // }
-
-  // @ApiOperation({ summary: 'Update phone number' })
-  // @UseGuards(AuthGuard)
-  // @ApiBearerAuth()
-  // @Put('/update_phone/:id')
-  // updatePhone(
-  //   @Param('id') id: string,
-  //   @Body() updatePhoneDto: UpdatePhoneDto,
-  // ) {
-  //   return this.studentService.updatePhone(id, updatePhoneDto);
-  // }
-
-  // @ApiOperation({ summary: 'New password' })
-  // @UseGuards(AuthGuard)
-  // @ApiBearerAuth()
-  // @Put('/new_password/:id')
-  // newPassword(
-  //   @Param('id') id: string,
-  //   @Body() newPasswordDto: newPasswordDto,
-  // ) {
-  //   return this.studentService.newPassword(id, newPasswordDto);
-  // }
+  
 
   @ApiOperation({ summary: 'Delete student by ID' })
   @UseGuards(AuthGuard)

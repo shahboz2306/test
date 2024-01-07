@@ -7,8 +7,9 @@ import { resolve } from 'path';
 import { FilesModule } from './files/files.module';
 import { StudentModule } from './student/student.module';
 import { AdminModule } from './admin/admin.module';
-import { QuestionModule } from './questions/question.module';
 import { UuidModule } from './generate_url/uuid.module';
+import { Part1Module } from './part1/part1.module';
+import { Part2Module } from './part2/part2.module';
 
 @Module({
   imports: [
@@ -32,7 +33,8 @@ import { UuidModule } from './generate_url/uuid.module';
     JwtModule.register({ global: true }),
     AdminModule,
     StudentModule,
-    QuestionModule,
+    Part1Module,
+    Part2Module,
     UuidModule,
     // FilesModule,
   ],

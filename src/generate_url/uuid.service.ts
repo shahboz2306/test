@@ -16,23 +16,6 @@ export class UuidService {
 
   async create(): Promise<object> {
     try {
-      const id: any = await this.getAll();
-      console.log(id);
-      if (id?.length) {
-        const uuid = uuidv4();
-        const updated_info = await this.uuidRepository.update(
-          { id: uuid },
-          { where: { id }, returning: true },
-        );
-        return {
-          statusCode: HttpStatus.OK,
-          message: 'Generated successfully',
-          data: {
-            uuid: updated_info[1][0],
-          },
-        };
-      }
-
       const uuid = await this.uuidRepository.create();
 
       return {
@@ -47,16 +30,19 @@ export class UuidService {
     }
   }
 
-  async getAll(): Promise<any> {
+  async getById(id: string): Promise<string> {
     try {
-      const uuid = await this.uuidRepository.findAll();
-      return uuid[0]?.id;
+      const uuid = await this.uuidRepository.findByPk(id);
+      if (!uuid) {
+        throw new NotFoundException('Uuid not found!');
+      }
+      return uuid.id;
     } catch (error) {
       throw new BadRequestException(error.message);
     }
   }
 
-  async get_uuid(): Promise<any> {
+  async getAll(): Promise<any> {
     try {
       const uuid = await this.uuidRepository.findAll();
       return {
@@ -71,7 +57,7 @@ export class UuidService {
     }
   }
 
-  async delete(id: number): Promise<object> {
+  async delete(id: string): Promise<object> {
     try {
       const uuid = await this.uuidRepository.findByPk(id);
       if (!uuid) {

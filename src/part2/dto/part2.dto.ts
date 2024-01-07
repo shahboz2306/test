@@ -4,10 +4,10 @@ import {
   IsBoolean,
   IsNotEmpty,
   IsNumber,
-  Max,
+  IsOptional,
 } from 'class-validator';
 
-export class QuestionDto {
+export class Part2Dto {
   @ApiProperty({
     example: 'false',
     description: 'Type of isPremium',
@@ -17,15 +17,22 @@ export class QuestionDto {
 
   @ApiProperty({
     example: [
-      "Speak about you",
-      "What is your favorite hobbies?",
-      "What is your name?",
+      [
+        'Speak about you Part3',
+        'What is your favorite hobbies Part3?',
+        'What is your name Part3?',
+      ],
+      [
+        'Speak about you Part3',
+        'What is your favorite hobbies Part3?',
+        'What is your name Part3?',
+      ],
     ],
-    description: 'Questions of parts',
+    description: 'Part2 and Part3',
   })
   @IsNotEmpty()
   @IsArray()
-  questions: Array<string>;
+  part2: Array<any>;
 
   @ApiProperty({
     example: {
@@ -46,12 +53,4 @@ export class QuestionDto {
   })
   @IsNotEmpty()
   speakingTime: object;
-
-  @ApiProperty({
-    example: '1',
-    description: 'Parts number',
-  })
-  @IsNotEmpty()
-  @IsNumber()
-  part_number: number;
 }

@@ -3,9 +3,17 @@ import { StudentService } from './student.service';
 import { StudentController } from './student.controller';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { Student } from './models/student.model';
+import { UuidModule } from '../generate_url/uuid.module';
+import { Part1Module } from '../part1/part1.module';
+import { Part2Module } from '../part2/part2.module';
 
 @Module({
-  imports: [SequelizeModule.forFeature([Student])],
+  imports: [
+    SequelizeModule.forFeature([Student]),
+    UuidModule,
+    Part1Module,
+    Part2Module,
+  ],
   controllers: [StudentController],
   providers: [StudentService],
   exports: [StudentService],

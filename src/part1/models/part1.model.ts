@@ -9,20 +9,19 @@ import {
 } from 'sequelize-typescript';
 
 interface TimeStatus {
-  count: number,
-  count_type: string,
+  count: number;
+  count_type: string;
 }
 
-interface QuestionAttributes {
+interface Part1Attributes {
   isPremium: boolean;
-  questions: Array<string>;
+  part1: Array<string>;
   thinkingTime: any;
   speakingTime: any;
-  part_number: number;
 }
 
-@Table({ tableName: 'question' })
-export class Question extends Model<Question, QuestionAttributes> {
+@Table({ tableName: 'part1' })
+export class Part1 extends Model<Part1, Part1Attributes> {
   @Column({
     type: DataType.INTEGER,
     autoIncrement: true,
@@ -40,16 +39,11 @@ export class Question extends Model<Question, QuestionAttributes> {
     type: DataType.ARRAY(DataType.STRING),
     allowNull: false,
   })
-  questions: Array<any>;
+  part1: Array<any>;
 
-  @Column({ type: DataType.JSON })
+  @Column({ type: DataType.JSON, allowNull: false })
   thinkingTime: TimeStatus;
 
-  @Column({ type: DataType.JSON })
+  @Column({ type: DataType.JSON, allowNull: false })
   speakingTime: TimeStatus;
-
-  @Column({
-    type: DataType.INTEGER,
-  })
-  part_number: number;
 }
