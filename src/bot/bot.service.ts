@@ -49,7 +49,7 @@ export class BotService {
   }
 
   async sendAudio(file_name: string, full_name: string) {
-    const currentDate = new Date();
+    const currentDate = new Date(new Date().toLocaleString('uz-UZ'));
 
     const formattedDate = currentDate.toLocaleString('uz-UZ', {
       day: '2-digit',
