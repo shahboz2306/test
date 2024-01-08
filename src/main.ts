@@ -4,13 +4,20 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { BadRequestException, ValidationPipe } from '@nestjs/common';
 import * as cookieParser from 'cookie-parser';
 import { SecuritySchemeObject } from '@nestjs/swagger/dist/interfaces/open-api-spec.interface';
+import { CorsOptions } from '@nestjs/common/interfaces/external/cors-options.interface';
 // import * as basicAuth from 'express-basic-auth';
 
 async function bootstrap() {
   try {
     const app = await NestFactory.create(AppModule);
     const PORT = process.env.PORT || 3001;
-    app.enableCors();
+    const corsOptions: CorsOptions = { 
+      origin: true, // Allow all origins
+      methods: ['GET', 'POST', 'PATCH', 'DELETE', 'PUT'], // Allow only GET and POST requests
+      credentials: true, // Allow sending cookies from the client
+    };
+  
+    app.enableCors(corsOptions);
     app.setGlobalPrefix('api');
     app.use(cookieParser());
     app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
