@@ -70,8 +70,8 @@ export class BotService {
       timeZone: 'Asia/Tashkent',
     };
 
-    const currentDate = new Date().toLocaleString('en-US', options);
-    // console.log(specificDate);
+    const currentDate = new Date().toLocaleString('uz-UZ', options);
+    console.log(currentDate);
 
     const source: any = 'static/' + file_name;
     const caption: any = `
