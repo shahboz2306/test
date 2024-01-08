@@ -1,3 +1,4 @@
+import { Part3Service } from './../part3/part3.service';
 import {
   BadRequestException,
   HttpStatus,
@@ -8,22 +9,30 @@ import { InjectModel } from '@nestjs/sequelize';
 import { Part2 } from './models/part2.model';
 import { Part2Dto } from './dto/part2.dto';
 import { FindOptions, Op } from 'sequelize';
+import { Part3Dto } from '../part3/dto/part3.dto';
 
 @Injectable()
 export class Part2Service {
-  constructor(@InjectModel(Part2) private part2Repository: typeof Part2) {}
+  constructor(
+    @InjectModel(Part2) private part2Repository: typeof Part2,
+    private readonly part3Service: Part3Service,
+  ) {}
 
-  async create(part2Dto: Part2Dto): Promise<object> {
+  async create(part2Dto: any): Promise<object> {
     try {
       console.log(part2Dto);
-      const part = await this.part2Repository.create({
-        ...part2Dto,
+      const part2_dto: Part2Dto = part2Dto.part2;
+      const part2 = await this.part2Repository.create({
+        ...part2_dto,
       });
+      const part3_dto: Part3Dto = {...part2Dto.part3, part2_id: part2.id};
+      const part3 = await this.part3Service.create(part3_dto)
       return {
         statusCode: HttpStatus.OK,
         message: 'Created successfully',
         data: {
-          part,
+          part2,
+          part3,
         },
       };
     } catch (error) {

@@ -22,7 +22,7 @@ export class Part2Controller {
   @ApiOperation({ summary: 'Create a new part2' })
   // @UseGuards(AuthGuard)
   @Post()
-  create(@Body() part2Dto: Part2Dto) {
+  create(@Body() part2Dto: any) {
     return this.part2Service.create(part2Dto);
   }
 
