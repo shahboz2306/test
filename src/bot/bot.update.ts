@@ -13,6 +13,7 @@ export class BotUpdate {
 
   @Help()
   async help(@Ctx() ctx: Context) {
+    console.log(ctx);
     await ctx.reply('Send me a sticker');
   }
 
