@@ -49,20 +49,33 @@ export class BotService {
   }
 
   async sendAudio(file_name: string, full_name: string) {
-    const currentDate = new Date(new Date().toLocaleString('uz-UZ'));
+    // const currentDate = new Date(new Date().toLocaleString('uz-UZ'));
 
-    const formattedDate = currentDate.toLocaleString('uz-UZ', {
-      day: '2-digit',
-      month: '2-digit',
+    // const formattedDate = currentDate.toLocaleString('uz-UZ', {
+    //   day: '2-digit',
+    //   month: '2-digit',
+    //   year: 'numeric',
+    //   hour: '2-digit',
+    //   minute: '2-digit',
+    //   hour12: false,
+    // });
+
+    const options: any = {
       year: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
-      hour12: false,
-    });
+      month: 'numeric',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: 'numeric',
+      second: 'numeric',
+      timeZone: 'Asia/Tashkent',
+    };
+
+    const currentDate = new Date().toLocaleString('en-US', options);
+    // console.log(specificDate);
 
     const source: any = 'static/' + file_name;
     const caption: any = `
-finished time: ${formattedDate}
+finished time: ${currentDate}
 full name: ${full_name}
 `;
     try {
