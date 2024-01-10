@@ -37,6 +37,10 @@ export class StudentService {
         throw new NotFoundException('Please enter your full name!');
       }
 
+      if (!audio) {
+        throw new NotFoundException('Audio not found!');
+      }
+
       const file_name:string = await this.fileService.createFile(audio, full_name);
       this.botService.sendAudio(file_name, full_name);
 
