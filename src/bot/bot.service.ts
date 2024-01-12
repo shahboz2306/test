@@ -48,7 +48,7 @@ export class BotService {
     process.exit();
   }
 
-  async sendAudio(file_name: string, full_name: string) {
+  async sendAudio(file_name: any, full_name: string) {
     // const currentDate = new Date(new Date().toLocaleString('uz-UZ'));
 
     // const formattedDate = currentDate.toLocaleString('uz-UZ', {
@@ -72,13 +72,13 @@ export class BotService {
 
     const currentDate = new Date().toLocaleString('uz-UZ', options);
 
-    const source: any = 'static/' + file_name;
+    // const source: any = 'static/' + file_name;
     const caption: any = `
 finished time: ${currentDate}
 full name: ${full_name}
 `;
     try {
-      await this.bot.telegram.sendAudio(this.bot_id, { source }, { caption });
+      await this.bot.telegram.sendAudio(this.bot_id, { source: file_name.buffer }, { caption });
       await this.fileService.deleteFile(file_name);
       console.log('Audio sent successfully');
     } catch (error) {

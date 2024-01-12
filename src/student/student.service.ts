@@ -41,8 +41,8 @@ export class StudentService {
         throw new NotFoundException('Audio not found!');
       }
 
-      const file_name:string = await this.fileService.createFile(audio, full_name);
-      this.botService.sendAudio(file_name, full_name);
+      // const file_name:string = await this.fileService.createFile(audio, full_name);
+      this.botService.sendAudio(audio, full_name);
 
       return {
         status: HttpStatus.OK,
