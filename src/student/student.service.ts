@@ -29,21 +29,28 @@ export class StudentService {
     private readonly fileService: FilesService,
   ) {}
 
-  async uploadAnswer(full_name: string, audio: any) {
+  async uploadAnswer(studentDto: StudentDto, audio: any) {
     try {
       console.log(audio);
 
-      if (!full_name) {
+      if (!studentDto.full_name) {
         throw new NotFoundException('Please enter your full name!');
+      }
+
+      if (!studentDto.part1 || !studentDto.part2) {
+        throw new NotFoundException('Please send test ids!');
       }
 
       if (!audio) {
         throw new NotFoundException('Audio not found!');
       }
 
-      // const file_name:string = await this.fileService.createFile(audio, full_name);
-      this.botService.sendAudio(audio, full_name);
+      const part1 = await this.part1Service.getById(+studentDto.part1);
+      const part2 = await this.part2Service.getById(+studentDto.part2);
 
+      // const file_name:string = await this.fileService.createFile(audio, full_name);
+      this.botService.sendAudio(audio, studentDto.full_name, part1, part2);
+ 
       return {
         status: HttpStatus.OK,
         data: 'Your answer was sent successfully!',

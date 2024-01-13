@@ -25,14 +25,34 @@ export class Part2Service {
       const part2 = await this.part2Repository.create({
         ...part2_dto,
       });
-      const part3_dto: Part3Dto = {...part2Dto.part3, part2_id: part2.id};
-      const part3 = await this.part3Service.create(part3_dto)
+      const part3_dto: Part3Dto = { ...part2Dto.part3, part2_id: part2.id };
+      const part3 = await this.part3Service.create(part3_dto);
       return {
         statusCode: HttpStatus.OK,
         message: 'Created successfully',
         data: {
           part2,
           part3,
+        },
+      };
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
+  }
+
+  async getById(id: number): Promise<object> {
+    try {
+      const part2 = await this.part2Repository.findByPk(id, {
+        include: { all: true },
+      });
+      if (!part2) {
+        throw new NotFoundException('Part2 not found!');
+      }
+      return {
+        statusCode: HttpStatus.OK,
+        message: 'Successfully',
+        data: {
+          part2,
         },
       };
     } catch (error) {

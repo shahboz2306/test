@@ -49,6 +49,25 @@ export class Part1Service {
     }
   }
 
+  async getById(id: number): Promise<object> {
+    try {
+      console.log(id, '--');
+      const part1 = await this.part1Repository.findByPk(id);
+      if (!part1) {
+        throw new NotFoundException('Part1 not found!');
+      }
+      return {
+        statusCode: HttpStatus.OK,
+        message: 'Successfully',
+        data: {
+          part1,
+        },
+      };
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
+  }
+
   async delete(id: number): Promise<object> {
     try {
       const part1 = await this.part1Repository.findByPk(id);

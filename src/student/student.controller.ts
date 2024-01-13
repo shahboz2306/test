@@ -41,6 +41,12 @@ export class StudentController {
           type: 'string',
           format: 'binary',
         },
+        part1: {
+          type: 'string',
+        },
+        part2: {
+          type: 'string',
+        },
         full_name: {
           type: 'string',
         },
@@ -50,11 +56,10 @@ export class StudentController {
   @Post('send_answer')
   @UseInterceptors(FileInterceptor('audio'))
   async create(
-    @Body('full_name') full_name: string,
+    @Body() studentDto: StudentDto,
     @UploadedFile(new ImageValidationPipe()) audio: Express.Multer.File,
   ) {
-    console.log(full_name);
-    return this.studentService.uploadAnswer(full_name, audio);
+    return this.studentService.uploadAnswer(studentDto, audio);
   }
 
   @ApiOperation({ summary: 'Get all students answer' })

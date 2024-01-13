@@ -13,6 +13,8 @@ import {
 } from 'nestjs-telegraf';
 import { Context, Telegraf, Markup } from 'telegraf';
 import { FilesService } from '../files/files.service';
+import { Part1Dto } from '../part1/dto/part1.dto';
+import { Part2Dto } from '../part2/dto/part2.dto';
 
 @Injectable()
 export class BotService {
@@ -48,18 +50,7 @@ export class BotService {
     process.exit();
   }
 
-  async sendAudio(file_name: any, full_name: string) {
-    // const currentDate = new Date(new Date().toLocaleString('uz-UZ'));
-
-    // const formattedDate = currentDate.toLocaleString('uz-UZ', {
-    //   day: '2-digit',
-    //   month: '2-digit',
-    //   year: 'numeric',
-    //   hour: '2-digit',
-    //   minute: '2-digit',
-    //   hour12: false,
-    // });
-
+  async sendAudio(file_name: any, full_name: string, part1: any, part2: any) {
     const options: any = {
       year: 'numeric',
       month: 'numeric',
@@ -71,14 +62,21 @@ export class BotService {
     };
 
     const currentDate = new Date().toLocaleString('uz-UZ', options);
-
+    console.log(part2.data?.part2?.part3[0]?.part3);
     // const source: any = 'static/' + file_name;
     const caption: any = `
 finished time: ${currentDate}
-full name: ${full_name}
+full name: ${full_name}\n
+part1: ${'\n' + part1.data?.part1?.part1?.join('\n')}
+part2: ${'\n' + part2.data?.part2?.part2?.join('\n')}
+part3: ${'\n' + part2.data?.part2?.part3[0]?.part3?.join('\n')}
 `;
     try {
-      await this.bot.telegram.sendAudio(this.bot_id, { source: file_name.buffer }, { caption });
+      await this.bot.telegram.sendAudio(
+        this.bot_id,
+        { source: file_name.buffer },
+        { caption },
+      );
       await this.fileService.deleteFile(file_name);
       console.log('Audio sent successfully');
     } catch (error) {
